@@ -1,0 +1,21 @@
+[package]
+name = "script"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+kako-lib = { path = "../lib" }
+sp1-sdk = "4.0.0"
+hex = "0.4.3"
+
+[[bin]]
+name = "prove"
+path = "src/bin/prove.rs"
+
+[[bin]]
+name = "verify"
+path = "src/bin/verify.rs"
+
+[[bin]]
+name = "cycle-check"
+path = "src/bin/cycle-check.rs"

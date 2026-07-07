@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kako Document Verifier</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+        .dropzone { border: 2px dashed #ccc; padding: 40px; text-align: center; cursor: pointer; border-radius: 8px; }
+        .dropzone:hover { border-color: #0066cc; background-color: #f0f8ff; }
+        .report { margin-top: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 8px; display: none; }
+        .success { color: green; font-weight: bold; }
+        .metric { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Kako Protocol Verifier</h1>
+    <p>Upload a Kako-stamped .docx file to mathematically verify its provenance.</p>
+
+    <div class="dropzone" id="dropzone">
+        <p>Drag and drop a .docx file here, or click to select</p>
+        <input type="file" id="fileInput" style="display: none;" accept=".docx" />
+    </div>
+
+    <div class="report" id="report">
+        <h2>Verification Report</h2>
+        <p class="success">✓ ZK Proof Validated</p>
+        <div class="metric"><strong>Document Hash:</strong> <span id="doc-hash"></span></div>
+        <div class="metric"><strong>AI Insertions:</strong> <span id="ai-count"></span></div>
+        <div class="metric"><strong>Paste Events:</strong> <span id="paste-count"></span></div>
+        <div class="metric"><strong>Total Typed Chars:</strong> <span id="typed-count"></span></div>
+    </div>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const report = document.getElementById('report');
+
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('document', file);
+
+            dropzone.innerHTML = '<p>Verifying ZK Proof...</p>';
+
+            try {
+                // Point to verifier-api running on 3001
+                const response = await fetch('http://localhost:3001/api/verify', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.valid) {
+                    document.getElementById('doc-hash').innerText = data.report.doc_hash;
+                    document.getElementById('ai-count').innerText = data.report.ai_insertion_count;
+                    document.getElementById('paste-count').innerText = data.report.paste_event_count;
+                    document.getElementById('typed-count').innerText = data.report.total_typed_chars;
+                    report.style.display = 'block';
+                    dropzone.innerHTML = '<p>Upload another document</p>';
+                } else {
+                    dropzone.innerHTML = `<p style="color:red">Verification failed: ${data.error}</p>`;
+                }
+            } catch (err) {
+                dropzone.innerHTML = '<p style="color:red">Error connecting to Verifier API</p>';
+            }
+        });
+    </script>
+</body>
+</html>

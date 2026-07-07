@@ -1,0 +1,13 @@
+{
+  "name": "kako-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "contracts/*",
+    "word-addin"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  }
+}
