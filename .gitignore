@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+target/
+dist/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Proof artifacts (generated locally)
+proof.bin
+vk.bin
+
+# Spec docs - internal only, do not commit
+docs/PROOF_STAMP_SPEC.md
+docs/KAKO_SPEC.md

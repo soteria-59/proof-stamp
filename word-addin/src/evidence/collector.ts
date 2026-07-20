@@ -2,7 +2,7 @@ import { EventType, EventRecord } from "../canonicalize/schema";
 
 /**
  * EventCollector is responsible for hooking into Office.js events
- * and translating them into Kako EventRecords.
+ * and translating them into Proof Stamp EventRecords.
  */
 export class EventCollector {
   private events: EventRecord[] = [];
@@ -29,18 +29,31 @@ export class EventCollector {
   }
 
   private async onContentChanged(eventArgs: Word.DocumentChangedEventArgs): Promise<void> {
-    // Extract insertion type and origin metadata from event context.
+    // In a full implementation, we'd sync the context to find the exact paragraph and character offset
+    // For now, we extract what's available from the event stream.
     
+    // Determine event type
+    let eventType = EventType.TYPED;
+    // @ts-ignore - Some event properties are in preview/beta
+    if (eventArgs.source === "Copilot" || eventArgs.source === "AI") {
+        eventType = EventType.AI_INSERTION;
+    } else if (eventArgs.type === "textDeleted") {
+        eventType = EventType.DELETE;
+    }
+
     const record: EventRecord = {
       id: crypto.randomUUID(),
-      type: EventType.TYPED,
-      timestamp_ms: Date.now(),
-      paragraph_index: 0, // Requires calculating position
+      type: eventType,
+      timestamp_unix_ms: Date.now(),
+      paragraph_index: 0, // Requires complex range intersection tracking
       char_offset: 0,
-      char_delta: 1,
+      char_delta: eventType === EventType.DELETE ? -1 : 1,
     };
 
     // Filter duplicates within standard debouncing window.
-    this.events.push(record);
+    const last = this.events[this.events.length - 1];
+    if (!last || last.timestamp_unix_ms < record.timestamp_unix_ms - 50 || last.type !== record.type) {
+      this.events.push(record);
+    }
   }
 }

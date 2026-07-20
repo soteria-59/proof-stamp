@@ -1,5 +1,5 @@
 {
-  "name": "kako-monorepo",
+  "name": "proofstamp-monorepo",
   "private": true,
   "workspaces": [
     "packages/*",

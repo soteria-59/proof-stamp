@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Kako Protocol Word Add-in Manifest -->
+<!-- Proof Stamp Word Add-in Manifest -->
 <OfficeApp
   xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -9,9 +9,9 @@
 
   <Id>b7c02c0b-1d73-4df7-8742-8c8577741d4c</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Kako</ProviderName>
+  <ProviderName>Proof Stamp</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Kako Provenance" />
+  <DisplayName DefaultValue="Proof Stamp" />
   <Description DefaultValue="Zero-Knowledge document provenance for Microsoft Word." />
 
   <Hosts>
@@ -39,8 +39,8 @@
         <DesktopFormFactor>
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <CustomTab id="TabDefault">
-              <Group id="KakoGroup">
-                <Label resid="KakoGroupLabel" />
+              <Group id="ProofStampGroup">
+                <Label resid="ProofStampGroupLabel" />
                 <Control xsi:type="Button" id="TaskpaneButton">
                   <Label resid="TaskpaneButtonLabel" />
                   <Action xsi:type="ShowTaskpane">
@@ -60,9 +60,9 @@
         <bt:Url id="TaskpaneUrl" DefaultValue="https://localhost:3000/taskpane.html" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="KakoGroupLabel" DefaultValue="Kako" />
-        <bt:String id="TaskpaneButtonLabel" DefaultValue="Open Kako" />
-        <bt:String id="TabLabel" DefaultValue="Kako Protocol" />
+        <bt:String id="ProofStampGroupLabel" DefaultValue="Proof Stamp" />
+        <bt:String id="TaskpaneButtonLabel" DefaultValue="Open Proof Stamp" />
+        <bt:String id="TabLabel" DefaultValue="Proof Stamp" />
       </bt:ShortStrings>
     </Resources>
   </VersionOverrides>

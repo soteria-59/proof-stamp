@@ -7,7 +7,7 @@ Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
     document.getElementById("status-indicator")!.innerText = "Active";
     
-    // Initialize Kako event collector
+    // Initialize Proof Stamp event collector
     collector = new EventCollector();
     
     Word.run(async (context) => {
