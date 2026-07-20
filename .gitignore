@@ -24,3 +24,8 @@ vk.bin
 # Spec docs - internal only, do not commit
 docs/PROOF_STAMP_SPEC.md
 docs/KAKO_SPEC.md
+
+# Local Bundles & Profiling
+test_bundle.json
+latest_bundle.json
+trace.json
